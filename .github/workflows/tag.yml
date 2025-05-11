@@ -1,0 +1,21 @@
+---
+name: 'Tag'
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Tag'
+        uses: anothrNick/github-tag-action@1.70.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

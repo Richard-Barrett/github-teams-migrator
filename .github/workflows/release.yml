@@ -1,0 +1,27 @@
+---
+name: 'Release'
+
+on:
+  workflow_run:
+    workflows: ['Tag']
+    types:
+      - completed
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v4
+
+      - name: 'Release'
+        uses: marvinpinto/action-automatic-releases@v1.2.1
+        with:
+          automatic_release_tag: 'latest'
+          repo_token: '${{ secrets.GITHUB_TOKEN }}'
+          prerelease: false
